@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripcord</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-navy: #1a2634;
+            --secondary-navy: #2d3e50;
+            --accent-blue: #3b82f6;
+            --accent-gold: #d4a855;
+            --light-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--light-bg);
+        }
+        
+        /* Smooth Scroll Wrapper - Required for ScrollSmoother */
+        #smooth-wrapper {
+            overflow: hidden;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        #smooth-content {
+            overflow: visible;
+            width: 100%;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        nav.scrolled {
+            background: rgba(26, 38, 52, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .logo {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.02em;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.85);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: white;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--primary-navy);
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: -10%;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 50%, #1e3a5f 100%);
+            z-index: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 2;
+            opacity: 0.5;
+        }
+        
+        /* Animated gradient orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 2;
+            opacity: 0.4;
+        }
+        
+        .hero-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+        
+        .hero-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 168, 85, 0.2) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            text-align: center;
+        }
+        
+        .hero-label {
+            display: inline-block;
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.15;
+            color: white;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            opacity: 0;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            line-height: 1.7;
+            opacity: 0;
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: transparent;
+            color: white;
+            padding: 1.1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: white;
+            color: var(--primary-navy);
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary svg {
+            transition: transform 0.3s;
+        }
+        
+        .btn-primary:hover svg {
+            transform: translateX(5px);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            opacity: 0;
+        }
+        
+        .scroll-indicator .mouse {
+            width: 26px;
+            height: 40px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .scroll-indicator .wheel {
+            width: 4px;
+            height: 8px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 2px;
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll-wheel 2s ease-in-out infinite;
+        }
+        
+        @keyframes scroll-wheel {
+            0%, 100% { opacity: 1; top: 8px; }
+            50% { opacity: 0.3; top: 18px; }
+        }
+        
+        /* Service Tiles */
+        .tiles {
+            padding: 8rem 3rem;
+            background: white;
+            position: relative;
+        }
+        
+        .tiles .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .tile {
+            background: var(--light-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tile:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        }
+        
+        .tile:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .tile-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: rgba(59, 130, 246, 0.1);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            line-height: 1;
+        }
+        
+        .tile h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: var(--primary-navy);
+            font-weight: 600;
+        }
+        
+        .tile p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* How We Help Section */
+        .how-we-help {
+            padding: 10rem 3rem;
+            background: var(--light-bg);
+            position: relative;
+        }
+        
+        .how-we-help .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            margin-bottom: 5rem;
+        }
+        
+        .section-label {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--primary-navy);
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-intro {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        
+        .help-section {
+            margin-bottom: 5rem;
+            padding-left: 3rem;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+        
+        .help-section::before {
+            content: '';
+            position: absolute;
+            left: -3px;
+            top: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-gold));
+            transition: height 0.6s ease;
+        }
+        
+        .help-section.active::before {
+            height: 100%;
+        }
+        
+        .help-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: var(--primary-navy);
+            font-weight: 600;
+        }
+        
+        .help-section p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        /* Team Section */
+        .team {
+            padding: 10rem 3rem;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+        
+        .team-member {
+            background: var(--light-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .team-member::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 50%, rgba(59, 130, 246, 0.05) 50%);
+            border-radius: 0 16px 0 0;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+        
+        .team-member h3 {
+            font-size: 1.6rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .team-member .title {
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1.75rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+        
+        .team-member p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 0.98rem;
+            line-height: 1.75;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 10rem 3rem;
+            background: var(--primary-navy);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 1;
+        }
+        
+        .contact .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contact .section-label {
+            color: var(--accent-gold);
+        }
+        
+        .contact .section-title {
+            color: white;
+        }
+        
+        .contact p {
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        
+        .contact-links {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+        
+        .contact-links a:hover {
+            background: white;
+            color: var(--primary-navy);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: #0f171f;
+            padding: 3rem;
+            text-align: center;
+        }
+        
+        footer p {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .tiles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 0 1.5rem;
+            }
+            
+            nav ul {
+                gap: 1.5rem;
+            }
+            
+            .hero-content,
+            .tiles,
+            .how-we-help,
+            .team,
+            .contact {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            .tiles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .help-section {
+                padding-left: 1.5rem;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="container">
+            <div class="logo">Ripcord</div>
+            <ul>
+                <li><a data-scroll="home">Home</a></li>
+                <li><a data-scroll="how-we-help">How We Help</a></li>
+                <li><a data-scroll="team">Team</a></li>
+                <li><a data-scroll="contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Smooth Scroll Wrapper -->
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+            
+            <!-- Hero Section -->
+            <section id="home" class="hero">
+                <div class="hero-bg" data-speed="0.8"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+                
+                <div class="hero-content">
+                    <span class="hero-label" data-lag="0.1">Strategic Advisory</span>
+                    <h1 data-lag="0.15">We help growing organizations navigate complexity at moments that matter.</h1>
+                    <p data-lag="0.2">Ripcord works with middle-market companies and leadership teams when growth, acquisition, or advanced technology requires disciplined execution and senior-level judgment.</p>
+                    <a data-scroll="contact" class="btn-primary" data-lag="0.25">
+                        Start a conversation
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="scroll-indicator">
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Service Tiles -->
+            <section class="tiles">
+                <div class="container">
+                    <div class="tiles-grid">
+                        <div class="tile" data-speed="0.95">
+                            <span class="tile-number">01</span>
+                            <h3>Scale Readiness</h3>
+                            <p>Preparing organizations for growth, capital, or regulatory complexity with the infrastructure and governance that scale demands.</p>
+                        </div>
+                        <div class="tile" data-speed="1">
+                            <span class="tile-number">02</span>
+                            <h3>Integration & Transition</h3>
+                            <p>Helping leadership teams stabilize and integrate after acquisitions, restructurings, or major organizational change.</p>
+                        </div>
+                        <div class="tile" data-speed="1.05">
+                            <span class="tile-number">03</span>
+                            <h3>Technology Enablement</h3>
+                            <p>Turning complex technology and AI initiatives into operational, accountable systems that deliver measurable results.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How We Help -->
+            <section id="how-we-help" class="how-we-help">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-label">Our Approach</span>
+                        <h2 class="section-title">How We Help</h2>
+                        <p class="section-intro">We work with organizations facing inflection points—moments where the next decision shapes everything that follows.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Scale Readiness</h3>
+                        <p>Growth creates complexity. Whether you're preparing for outside capital, entering a new market, or simply outgrowing your original operating model, we help leadership teams build the infrastructure, governance, and internal capabilities that scale demands.</p>
+                        <p>We've helped clients prepare for Series B rounds, build out finance and operations functions ahead of rapid headcount growth, and design board reporting and internal controls for companies moving from founder-led to institutionally backed.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Integration & Transition</h3>
+                        <p>Acquisitions, leadership transitions, and restructurings often leave organizations in a fragile state. We help leadership teams stabilize operations, integrate acquired businesses, and rebuild clarity after disruption.</p>
+                        <p>We've supported post-merger integrations, led interim operating roles during leadership gaps, and helped companies redesign workflows and reporting after carve-outs and divestitures.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Advanced Technology Enablement</h3>
+                        <p>Technology initiatives—particularly AI—often stall because organizations lack the operational infrastructure to absorb them. We help companies turn ambitious technology strategies into accountable, measurable programs.</p>
+                        <p>We've helped clients move from AI pilots to production deployments, built governance frameworks for emerging technology, and redesigned workflows to accommodate automation without disrupting core operations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section id="team" class="team">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-label">Leadership</span>
+                        <h2 class="section-title">Our Team</h2>
+                    </div>
+                    
+                    <div class="team-grid">
+                        <!-- Paul Peters -->
+                        <div class="team-member" data-speed="0.97">
+                            <h3>Paul Peters</h3>
+                            <p class="title">Principal</p>
+                            <p>Paul Peters is the founder and principal of Ripcord. He works with middle-market companies and leadership teams as they navigate growth, acquisitions, and increasing complexity.</p>
+                            <p>His background combines front-end transaction experience with hands-on operational execution, allowing him to bridge strategy, finance, and technology when organizations reach critical inflection points.</p>
+                            <p>Paul brings a pragmatic, execution-focused approach, helping teams move from uncertainty to structure, and from ambition to operational readiness.</p>
+                        </div>
+                        
+                        <!-- Brian Rome -->
+                        <div class="team-member" data-speed="1.03">
+                            <h3>Brian Rome</h3>
+                            <p class="title">Principal</p>
+                            <p>Brian Rome is a business transformation leader with deep expertise in scaling operations, technology strategy, and enterprise value creation for small and medium enterprises.</p>
+                            <p>His career spans nearly two decades of program leadership and operational execution across Fortune 1000 environments. At Maven Wave, he managed a nine-figure cloud and data portfolio, establishing the governance frameworks, risk controls, and executive rhythms that turned individual wins into repeatable, scalable plays.</p>
+                            <p>Brian brings the operational rigor and strategic clarity often reserved for large enterprises to the middle market. His focus areas include scaling strategies for growth, process optimization for profitability, and future-ready technology roadmaps.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="contact">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-label">Get in Touch</span>
+                        <h2 class="section-title">Let's Talk</h2>
+                    </div>
+                    <p>We typically work with leadership teams facing growth, transition, or operational complexity.</p>
+                    <p>If you would like to discuss a situation confidentially, please reach out.</p>
+                    <div class="contact-links">
+                        <a href="mailto:[email]">[Email]</a>
+                        <a href="[LinkedIn]" target="_blank">[LinkedIn]</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer>
+                <p>&copy; 2025 Ripcord. All rights reserved.</p>
+            </footer>
+            
+        </div>
+    </div>
+
+    <!-- GSAP 3.13.0 from cdnjs (includes ScrollSmoother) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js"></script>
+    
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+        
+        // Initialize ScrollSmoother
+        let smoother = ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 1.5,
+            effects: true,
+            smoothTouch: 0.1
+        });
+        
+        // Custom scroll function for nav links
+        document.querySelectorAll('[data-scroll]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-scroll');
+                const target = document.getElementById(targetId);
+                if (target) {
+                    smoother.scrollTo(target, true, "top top");
+                }
+            });
+        });
+        
+        // Navigation scroll effect
+        ScrollTrigger.create({
+            start: "top -100",
+            end: 99999,
+            toggleClass: { className: "scrolled", targets: "#nav" }
+        });
+        
+        // Set initial states for animated elements
+        gsap.set(".hero-label", { opacity: 0, y: 30 });
+        gsap.set(".hero h1", { opacity: 0, y: 30 });
+        gsap.set(".hero p", { opacity: 0, y: 30 });
+        gsap.set(".btn-primary", { opacity: 0, y: 30 });
+        gsap.set(".scroll-indicator", { opacity: 0 });
+        
+        // Hero animations
+        const heroTl = gsap.timeline({ delay: 0.5 });
+        
+        heroTl
+            .to(".hero-label", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            })
+            .to(".hero h1", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.4")
+            .to(".hero p", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.6")
+            .to(".btn-primary", {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.4")
+            .to(".scroll-indicator", {
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.2");
+        
+        // Floating orbs animation
+        gsap.to(".hero-orb-1", {
+            x: 50,
+            y: 30,
+            duration: 8,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        
+        gsap.to(".hero-orb-2", {
+            x: -40,
+            y: -25,
+            duration: 6,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        
+        // Service tiles animation
+        gsap.utils.toArray(".tile").forEach((tile, i) => {
+            gsap.fromTo(tile, 
+                { opacity: 0, y: 60 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: tile,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.15
+                }
+            );
+        });
+        
+        // Section header animations
+        gsap.utils.toArray(".section-header").forEach(header => {
+            gsap.fromTo(header,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: header,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+        
+        // Help sections animation
+        gsap.utils.toArray(".help-section").forEach((section, i) => {
+            gsap.fromTo(section,
+                { opacity: 0, x: -30 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 75%",
+                        toggleActions: "play none none none",
+                        onEnter: () => section.classList.add("active")
+                    },
+                    delay: i * 0.1
+                }
+            );
+        });
+        
+        // Team member animations
+        gsap.utils.toArray(".team-member").forEach((member, i) => {
+            gsap.fromTo(member,
+                { opacity: 0, y: 60 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: member,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.2
+                }
+            );
+        });
+        
+        // Contact section animation
+        gsap.fromTo(".contact .section-header",
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".contact",
+                    start: "top 70%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    </script>
+</body>
+</html>
