@@ -582,47 +582,82 @@
         }
         
         /* Responsive */
-        @media (max-width: 1024px) {
-            .tiles-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            nav .container {
-                padding: 0 1.5rem;
-            }
-            
-            nav ul {
-                gap: 1.5rem;
-            }
-            
-            .hero-content,
-            .tiles,
-            .how-we-help,
-            .team,
-            .contact {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-            
-            .tiles-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .help-section {
-                padding-left: 1.5rem;
-            }
-            
-            .contact-links {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
+@media (max-width: 1024px) {
+    .tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 0;
+    }
+    
+    nav .container {
+        padding: 0 1.5rem;
+    }
+    
+    nav ul {
+        gap: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Fix hero spacing */
+    .hero {
+        padding-top: 100px;
+        min-height: auto;
+    }
+    
+    .hero-label {
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Fix button and scroll indicator overlap */
+    .btn-primary {
+        margin-bottom: 4rem;
+    }
+    
+    .scroll-indicator {
+        display: none;
+    }
+    
+    .hero-content,
+    .tiles,
+    .how-we-help,
+    .team,
+    .contact {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .tiles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .help-section {
+        padding-left: 1.5rem;
+    }
+    
+    .contact-links {
+        flex-direction: column;
+        align-items: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -769,7 +804,7 @@
             
             <!-- Footer -->
             <footer>
-                <p>&copy; 2025 Ripcord Consulting. All rights reserved.</p>
+                <p>&copy; 2026 Ripcord Consulting. All rights reserved.</p>
             </footer>
             
         </div>
