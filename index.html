@@ -592,15 +592,23 @@
             }
         }
         
-        @media (max-width: 768px) {
+        /* Tablet and Mobile Devices */
+        @media (min-width: 481px) and (max-width: 768px) {
             nav .container {
                 padding: 0 1.5rem;
             }
-            
+
             nav ul {
                 gap: 1.5rem;
             }
-            
+
+            nav a {
+                padding: 0.65rem 0.85rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
             .hero-content,
             .tiles,
             .how-we-help,
@@ -609,18 +617,306 @@
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
             }
-            
+
+            /* Hero Section Mobile */
+            .hero p {
+                font-size: 1rem;
+                line-height: 1.6;
+                margin-bottom: 2rem;
+            }
+
+            .btn-primary {
+                padding: 0.9rem 2rem;
+                font-size: 0.9rem;
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+
+            /* Reduce orb size for performance */
+            .hero-orb {
+                filter: blur(40px);
+            }
+
+            .hero-orb-1 {
+                width: 300px;
+                height: 300px;
+                top: -100px;
+                right: -100px;
+            }
+
+            .hero-orb-2 {
+                width: 250px;
+                height: 250px;
+                bottom: -75px;
+                left: -75px;
+            }
+
+            /* Service Tiles */
+            .tiles {
+                padding: 4rem 1.5rem;
+            }
+
             .tiles-grid {
                 grid-template-columns: 1fr;
+                gap: 1.25rem;
             }
-            
+
+            .tile {
+                padding: 2rem;
+            }
+
+            .tile-number {
+                font-size: 2.5rem;
+                top: 0.75rem;
+                right: 1rem;
+            }
+
+            .tile h3 {
+                font-size: 1.2rem;
+            }
+
+            .tile p {
+                font-size: 0.95rem;
+            }
+
+            /* How We Help Section */
+            .how-we-help {
+                padding: 5rem 1.5rem;
+            }
+
+            .section-header {
+                margin-bottom: 3rem;
+            }
+
+            .section-intro {
+                font-size: 1.05rem;
+            }
+
             .help-section {
+                margin-bottom: 3rem;
                 padding-left: 1.5rem;
             }
-            
+
+            .help-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .help-section p {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+
+            /* Team Section */
+            .team {
+                padding: 5rem 1.5rem;
+            }
+
+            .team-grid {
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+
+            .team-member {
+                padding: 2rem;
+            }
+
+            .team-member::after {
+                width: 60px;
+                height: 60px;
+            }
+
+            .team-member h3 {
+                font-size: 1.4rem;
+            }
+
+            .team-member .title {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .team-member p {
+                font-size: 0.93rem;
+                line-height: 1.65;
+            }
+
+            /* Contact Section */
+            .contact {
+                padding: 5rem 1.5rem;
+            }
+
+            .contact p {
+                font-size: 1.05rem;
+            }
+
             .contact-links {
+                margin-top: 2.5rem;
+                gap: 1rem;
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .contact-links a {
+                padding: 0.9rem 2rem;
+                font-size: 0.9rem;
+                min-width: 200px;
+            }
+        }
+
+        /* Small Mobile Devices */
+        @media (max-width: 480px) {
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            nav .logo {
+                font-size: 1.15rem;
+            }
+
+            /* Hero Section */
+            .hero h1 {
+                font-size: clamp(1.75rem, 7vw, 2.25rem);
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .hero-orb {
+                display: none;
+            }
+
+            /* Section Headers */
+            .section-title {
+                font-size: clamp(1.5rem, 5.5vw, 2rem);
+            }
+
+            .section-label {
+                font-size: 0.8rem;
+            }
+
+            /* Tiles */
+            .tiles {
+                padding: 3.5rem 1.5rem;
+            }
+
+            .tile {
+                padding: 1.5rem;
+            }
+
+            .tile-number {
+                font-size: 2rem;
+            }
+
+            /* How We Help */
+            .how-we-help {
+                padding: 3.5rem 1.5rem;
+            }
+
+            .section-header {
+                margin-bottom: 2rem;
+            }
+
+            .section-intro {
+                font-size: 1rem;
+            }
+
+            .help-section {
+                margin-bottom: 2.5rem;
+                padding-left: 1rem;
+            }
+
+            .help-section h3 {
+                font-size: 1.2rem;
+            }
+
+            /* Team */
+            .team {
+                padding: 3.5rem 1.5rem;
+            }
+
+            .team-grid {
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .team-member {
+                padding: 1.5rem;
+            }
+
+            .team-member::after {
+                width: 50px;
+                height: 50px;
+            }
+
+            .team-member h3 {
+                font-size: 1.3rem;
+            }
+
+            /* Contact */
+            .contact {
+                padding: 3.5rem 1.5rem;
+            }
+
+            .contact-links a {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+            }
+        }
+
+        /* Very Small Devices */
+        @media (max-width: 374px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .section-label {
+                font-size: 0.75rem;
+            }
+
+            nav .container,
+            .hero-content,
+            .tiles,
+            .how-we-help,
+            .team,
+            .contact {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .tile,
+            .team-member {
+                padding: 1.25rem;
+            }
+
+            .btn-primary,
+            .contact-links a {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -784,16 +1080,22 @@
     <script>
         // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
-        
-        // Initialize ScrollSmoother
-        let smoother = ScrollSmoother.create({
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            smooth: 1.5,
-            effects: true,
-            smoothTouch: 0.1
-        });
-        
+
+        // Detect mobile device for performance optimization
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        // Initialize ScrollSmoother conditionally (disabled on mobile for better performance)
+        let smoother;
+        if (!isMobile) {
+            smoother = ScrollSmoother.create({
+                wrapper: "#smooth-wrapper",
+                content: "#smooth-content",
+                smooth: 1.5,
+                effects: true,
+                smoothTouch: 0.1
+            });
+        }
+
         // Custom scroll function for nav links
         document.querySelectorAll('[data-scroll]').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -801,7 +1103,13 @@
                 const targetId = this.getAttribute('data-scroll');
                 const target = document.getElementById(targetId);
                 if (target) {
-                    smoother.scrollTo(target, true, "top top");
+                    if (smoother) {
+                        // Use ScrollSmoother on desktop
+                        smoother.scrollTo(target, true, "top top");
+                    } else {
+                        // Use native smooth scroll on mobile
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             });
         });
@@ -854,24 +1162,26 @@
                 ease: "power2.out"
             }, "-=0.2");
         
-        // Floating orbs animation
-        gsap.to(".hero-orb-1", {
-            x: 50,
-            y: 30,
-            duration: 8,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        gsap.to(".hero-orb-2", {
-            x: -40,
-            y: -25,
-            duration: 6,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
+        // Floating orbs animation (disabled on mobile for performance)
+        if (!isMobile) {
+            gsap.to(".hero-orb-1", {
+                x: 50,
+                y: 30,
+                duration: 8,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+
+            gsap.to(".hero-orb-2", {
+                x: -40,
+                y: -25,
+                duration: 6,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
         
         // Service tiles animation
         gsap.utils.toArray(".tile").forEach((tile, i) => {
