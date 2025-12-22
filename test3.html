@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripcord Group | Capital Strategy & Computational Scale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* PALETTE: Digital Fortress */
+            --bg-dark: #050505;       
+            --bg-card: #0F0F0F;       
+            --accent-green: #47D45A;  /* Growth Green */
+            --text-white: #F5F5F5;    
+            --text-grey: #999999;     
+            --border: #222222;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-white);
+            background: var(--bg-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- SPLASH SCREEN (CSS ANIMATION FIX) --- */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            /* This ensures the screen disappears automatically after 2.5s */
+            animation: lift-curtain 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards 2.5s;
+        }
+
+        @keyframes lift-curtain {
+            to { transform: translateY(-100%); }
+        }
+        
+        .logo-svg {
+            fill: var(--accent-green);
+            width: 100%;
+            height: 100%;
+        }
+
+        .splash-logo-container {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            opacity: 0; 
+            animation: fade-in 0.5s ease forwards;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 2px;
+            background: #222;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent-green);
+            animation: load-bar 2s ease-in-out forwards;
+        }
+
+        @keyframes load-bar {
+            0% { width: 0%; }
+            50% { width: 40%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes fade-in {
+            to { opacity: 1; }
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            /* Delays nav appearance until splash is gone */
+            opacity: 0; 
+            animation: fade-in 1s ease forwards 3s; 
+        }
+        
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: var(--text-white);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        nav a:hover { color: var(--accent-green); }
+
+        /* --- SECTIONS COMMON --- */
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h2 {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px;
+            padding-bottom: 0;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .glow-spot {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(71, 212, 90, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(60px);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 2rem;
+            z-index: 2;
+            opacity: 0;
+            animation: slide-up 1s ease forwards 3.2s;
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(71, 212, 90, 0.1);
+            border: 1px solid rgba(71, 212, 90, 0.3);
+            border-radius: 100px;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-grey);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+
+        .metrics-strip {
+            margin-top: 5rem;
+            display: flex;
+            gap: 4rem;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            justify-content: center;
+        }
+
+        .metric-item { text-align: left; }
+        .metric-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--text-white);
+            display: block;
+        }
+        .metric-lbl {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-grey);
+            letter-spacing: 0.1em;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--accent-green);
+            color: #000;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(71, 212, 90, 0.3); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-white);
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: var(--text-white); background: rgba(255,255,255,0.05); }
+
+        /* --- HOW WE HELP (TILES) --- */
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .tile {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+        }
+        
+        .tile:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-5px);
+        }
+        
+        .tile-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-green);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            opacity: 0.8;
+        }
+        
+        .tile h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+        
+        .tile p {
+            color: var(--text-grey);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* --- ABOUT SECTION (Split) --- */
+        .split-section {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        .split-content { flex: 1; }
+        .split-image { 
+            flex: 1; 
+            height: 500px; 
+            background: #111; 
+            border-radius: 8px; 
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        /* Placeholder for Paul's Headshot */
+        .bio-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #111, #222);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-family: 'JetBrains Mono';
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 4rem 0;
+            background: #000;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .contact-link {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .contact-link:hover { color: var(--accent-green); }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            .tiles-grid { grid-template-columns: repeat(2, 1fr); }
+            .split-section { flex-direction: column; }
+            .split-image { width: 100%; height: 400px; }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-strip { flex-direction: column; gap: 2rem; text-align: center; }
+            .metric-item { text-align: center; }
+            nav ul { display: none; }
+            .tiles-grid { grid-template-columns: 1fr; }
+            h2 { font-size: 2rem; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash">
+        <div class="splash-logo-container">
+            <svg viewBox="0 0 100 100" class="logo-svg">
+                <path d="M20 10 H60 C80 10, 90 25, 90 40 C90 55, 80 65, 65 65 H50 L80 95 H60 L35 65 H20 V95 H5 V10 Z M20 25 V50 H55 C65 50, 70 45, 70 37.5 C70 30, 65 25, 55 25 H20 Z" />
+            </svg>
+        </div>
+        <div style="font-family:'JetBrains Mono'; color:#47D45A; font-size:12px; letter-spacing:2px;">INITIALIZING PROTOCOLS</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <nav id="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <svg viewBox="0 0 100 100" style="fill:#47D45A; width:24px; height:24px;">
+                    <path d="M20 10 H60 C80 10, 90 25, 90 40 C90 55, 80 65, 65 65 H50 L80 95 H60 L35 65 H20 V95 H5 V10 Z M20 25 V50 H55 C65 50, 70 45, 70 37.5 C70 30, 65 25, 55 25 H20 Z" />
+                </svg>
+                &nbsp;RIPCORD GROUP
+            </a>
+            <ul>
+                <li><a href="#approach">Capabilities</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact" style="color:var(--accent-green)">Direct Access</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="glow-spot"></div>
+
+        <div class="hero-content">
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                System Operational
+            </div>
+
+            <h1>Capital Strategy.<br>Computational Scale.</h1>
+            <p>We bridge the gap between institutional finance and algorithmic operations. Ripcord deploys the infrastructure, governance, and AI agents required to survive your next inflection point.</p>
+
+            <div class="btn-group">
+                <a href="#contact" class="btn-primary">Initialize Strategy</a>
+                <a href="#approach" class="btn-secondary">Explore Capabilities</a>
+            </div>
+
+            <div class="metrics-strip">
+                <div class="metric-item">
+                    <span class="metric-val">20+</span>
+                    <span class="metric-lbl">Years IB/PE Experience</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-val">$500M+</span>
+                    <span class="metric-lbl">Transaction Value</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-val">AI/ML</span>
+                    <span class="metric-lbl">Native Infrastructure</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="approach">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Approach</span>
+                <h2>Growth breaks systems.<br>We fix them.</h2>
+                <p style="color:var(--text-grey); font-size:1.1rem; margin-top:1rem;">Middle-market companies often have revenue engines that outpace their operating chassis. We provide the "Ripcord"—immediate deployment of structure and senior judgment.</p>
+            </div>
+
+            <div class="tiles-grid">
+                <div class="tile">
+                    <span class="tile-number">01 // PRE-SCALE</span>
+                    <h3>Capital Readiness</h3>
+                    <p>Hardening infrastructure for due diligence, equity injection, or regulatory scrutiny. We build an audit-proof operating model and a capital-efficient roadmap.</p>
+                </div>
+                
+                <div class="tile">
+                    <span class="tile-number">02 // TRANSITION</span>
+                    <h3>Integration Protocols</h3>
+                    <p>Stabilizing the P&L during acquisitions, carve-outs, and leadership transitions. We ensure unified workflows and EBITDA protection during the "Day 1" risk.</p>
+                </div>
+                
+                <div class="tile">
+                    <span class="tile-number">03 // ACCELERATION</span>
+                    <h3>AI Deployment</h3>
+                    <p>Moving from "Pilot Purgatory" to production-grade operational leverage. We build systems where technology is an asset, not an anxiety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" style="background: #0A0A0A;">
+        <div class="container">
+            <div class="split-section">
+                <div class="split-content">
+                    <span class="section-label">Principal</span>
+                    <h2>The Deal Room meets<br>the Server Room.</h2>
+                    <p style="color:var(--text-grey); font-size:1.1rem; margin-bottom:1.5rem;">Paul Peters is a transaction veteran with over two decades of experience spanning investment banking, private equity, and enterprise IT. He does not just advise on strategy; he engineers the outcome.</p>
+                    <p style="color:var(--text-grey); margin-bottom:1.5rem;">Uniquely positioned at the intersection of Finance and Code, Paul helps middle-market leadership navigate the three highest-risk events in a company’s lifecycle: The Raise, The Merge, and The Shift.</p>
+                    <a href="#" style="color:var(--accent-green); text-decoration:none; font-weight:600;">Read Full Bio &rarr;</a>
+                </div>
+                <div class="split-image">
+                    <div class="bio-placeholder">
+                        [Insert Headshot Here]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="padding: 6rem 0;">
+        <div class="container">
+            <span class="section-label">Direct Access</span>
+            <h2 style="max-width:800px;">Facing an inflection point? Let's determine if we are the right partner.</h2>
+            <div style="margin-top:3rem;">
+                <a href="mailto:paul@ripcord.com" class="contact-link">paul@ripcord.com</a>
+                <br><br>
+                <a href="#" style="color:var(--text-grey); text-decoration:none;">LinkedIn Profile &nearr;</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <span style="color:var(--text-grey); font-size:0.8rem;">&copy; 2026 Ripcord Group. All rights reserved.</span>
+                <span style="color:var(--text-grey); font-size:0.8rem; font-family:'JetBrains Mono'">SYSTEM_STATUS: ONLINE</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
