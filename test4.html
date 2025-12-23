@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ripcord Group | Capital Strategy & Computational Scale</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+	<meta name="description" content="Ripcord Group deploys capital strategy, operational infrastructure, and AI systems for middle-market companies navigating growth, transactions, and transformation.">
+    <meta property="og:title" content="Ripcord Group | Capital Strategy & Computational Scale">
+    <meta property="og:description" content="We bridge the gap between institutional finance and algorithmic operations.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ripcordx.github.io/website/">
+    <meta name="twitter:card" content="summary">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -386,6 +394,64 @@
             font-family: 'JetBrains Mono';
         }
 
+/* --- TEAM SECTION --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .team-member {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .team-photo {
+            height: 280px;
+            background: #111;
+        }
+
+        .team-photo .bio-placeholder {
+            height: 100%;
+        }
+
+        .team-info {
+            padding: 2rem;
+        }
+
+        .team-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-title {
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-info p {
+            color: var(--text-grey);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .team-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 900px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* --- FOOTER --- */
         footer {
             border-top: 1px solid var(--border);
@@ -603,17 +669,35 @@
 
     <section id="about" style="background: #0A0A0A;">
         <div class="container">
-            <div class="split-section">
-                <div class="split-content">
-                    <span class="section-label">Principal</span>
-                    <h2>The Deal Room meets<br>the Server Room.</h2>
-                    <p style="color:var(--text-grey); font-size:1.1rem; margin-bottom:1.5rem;">Paul Peters is a transaction veteran with over two decades of experience spanning investment banking, private equity, and enterprise IT. He does not just advise on strategy; he engineers the outcome.</p>
-                    <p style="color:var(--text-grey); margin-bottom:1.5rem;">Uniquely positioned at the intersection of Finance and Code, Paul helps middle-market leadership navigate the three highest-risk events in a company’s lifecycle: The Raise, The Merge, and The Shift.</p>
-                    <a href="#" style="color:var(--accent-green); text-decoration:none; font-weight:600;">Read Full Bio &rarr;</a>
+            <div class="section-header">
+                <span class="section-label">Leadership</span>
+                <h2>The Deal Room meets<br>the Server Room.</h2>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-photo">
+                        <div class="bio-placeholder">[Photo]</div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Brian Rome</h3>
+                        <span class="team-title">Principal</span>
+                        <p>Brian Rome is a business transformation leader with deep expertise in scaling operations, technology strategy, and enterprise value creation for small and medium enterprises.</p>
+                        <p>His career spans nearly two decades of program leadership and operational execution across Fortune 1000 environments. At Maven Wave, he managed a nine-figure cloud and data portfolio, establishing the governance frameworks, risk controls, and executive rhythms that turned individual wins into repeatable, scalable plays.</p>
+                        <p>Brian brings the operational rigor and strategic clarity often reserved for large enterprises to the middle market. His focus areas include scaling strategies for growth, process optimization for profitability, and future-ready technology roadmaps.</p>
+                    </div>
                 </div>
-                <div class="split-image">
-                    <div class="bio-placeholder">
-                        [Insert Headshot Here]
+                
+                <div class="team-member">
+                    <div class="team-photo">
+                        <div class="bio-placeholder">[Photo]</div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Paul Peters</h3>
+                        <span class="team-title">Principal</span>
+                        <p>Paul Peters is the founder and principal of Ripcord Group. He works with middle-market companies and leadership teams as they navigate growth, acquisitions, and increasing complexity.</p>
+                        <p>His background combines front-end transaction experience with hands-on operational execution, allowing him to bridge strategy, finance, and technology when organizations reach critical inflection points.</p>
+                        <p>Paul brings a pragmatic, execution-focused approach, helping teams move from uncertainty to structure, and from ambition to operational readiness.</p>
                     </div>
                 </div>
             </div>
@@ -625,9 +709,9 @@
             <span class="section-label">Direct Access</span>
             <h2 style="max-width:800px;">Facing an inflection point? Let's determine if we are the right partner.</h2>
             <div style="margin-top:3rem;">
-                <a href="mailto:paul@ripcord.com" class="contact-link">paul@ripcord.com</a>
+                <a href="mailto:info@ripcord.com" class="contact-link">info@ripcord.com</a>
                 <br><br>
-                <a href="#" style="color:var(--text-grey); text-decoration:none;">LinkedIn Profile &nearr;</a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color:var(--text-grey); text-decoration:none;">LinkedIn Profile &nearr;</a>
             </div>
         </div>
     </section>
