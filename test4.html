@@ -448,6 +448,66 @@
                 -webkit-animation: lift-curtain 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards 2.5s;
             }
         }
+		
+		/* Hamburger menu */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-white);
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(5, 5, 5, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1.5rem 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav .container {
+                position: relative;
+            }
+        }
 	</style>
 </head>
 <body>
@@ -472,7 +532,14 @@
                 </svg>
                 &nbsp;RIPCORD GROUP
             </a>
-            <ul>
+            
+			<button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+			
+			<ul>
                 <li><a href="#approach">Capabilities</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact" style="color:var(--accent-green)">Direct Access</a></li>
@@ -590,6 +657,20 @@
             var splash = document.getElementById('splash');
             if (splash) splash.style.display = 'none';
         }, 4000);
+
+        // Hamburger menu toggle
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('nav ul a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-toggle').classList.remove('active');
+                document.querySelector('nav ul').classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>
